@@ -20,6 +20,8 @@ class HomePage extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: Consumer<ProductState>(
               builder: (context, state, child) => ProductCard(
+                discount: 10,
+                isDiscount: state.pcs >= 5,
                 pcs: state.pcs,
                 stock: 10,
                 onIncTap: () {

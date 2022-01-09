@@ -10,6 +10,8 @@ class ProductCard extends StatelessWidget {
   final Function() onIncTap;
   final int pcs;
   final int stock;
+  final bool isDiscount;
+  final int discount;
 
   const ProductCard({
     Key? key,
@@ -22,6 +24,8 @@ class ProductCard extends StatelessWidget {
     required this.onIncTap,
     this.pcs = 0,
     this.stock = 0,
+    this.isDiscount = false,
+    this.discount = 0,
   }) : super(key: key);
 
   @override
@@ -36,6 +40,21 @@ class ProductCard extends StatelessWidget {
     return Stack(
       children: [
         //notifikasi
+        AnimatedContainer(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.only(bottom: 5),
+          duration: Duration(milliseconds: 500),
+          width: 130,
+          height: isDiscount ? 320 : 300,
+          decoration: BoxDecoration(
+              color: Colors.green, borderRadius: BorderRadius.circular(16)),
+          child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                'Diskon $discount%',
+                style: style.copyWith(color: Colors.white, fontSize: 12),
+              )),
+        ),
         //card
         Container(
           width: width,
@@ -80,10 +99,13 @@ class ProductCard extends StatelessWidget {
                       NumberFormat.currency(
                               locale: 'id', symbol: 'Rp. ', decimalDigits: 0)
                           .format(pcs == 0 ? price : price * pcs),
-                      style:
-                          style.copyWith(color: Theme.of(context).primaryColor),
+                      style: style.copyWith(
+                          decoration: isDiscount
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none,
+                          color: Theme.of(context).primaryColor),
                     ),
-                  )
+                  ),
                 ],
               ),
               //tengah
